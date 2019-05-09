@@ -11,6 +11,9 @@ class Node:
 
 class Parser:
 
+  TYPES = [
+    'VAR', 'CONST', 'ADD', 'SUB', 'LT', 'MT', 'SET', 'IF1', 'IF2', 'WHILE', 'DO', 'EMPTY', 'SEQ', 'EXPR', 'PROG'
+  ]
   VAR, CONST, ADD, SUB, LT, MT, SET, IF1, IF2, WHILE, DO, EMPTY, SEQ, EXPR, PROG = range(15)
 
   def __init__(self, lexer):
