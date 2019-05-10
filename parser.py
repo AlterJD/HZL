@@ -46,7 +46,7 @@ class Parser:
       n = Node(kind, operand1 = n, operand2 = self.term())
     return n
 
-  def test(self):
+  def test(self): #TODO bool_expr
     n = self.sum()
     if self.lexer.symbol == Lexer.LESS:
       self.lexer.next_token()
@@ -66,8 +66,8 @@ class Parser:
       n = Node(Parser.SET, operand1 = n, operand2 = self.expr())
     return n
 
-  def parent_expr(self):
-    if self.lexer.symbol != Lexer.LBR:
+  def parent_expr(self): #TODO bracket_expr
+    if self.lexer.symbol != Lexer.LBR: 
       self.error('"(" expected')
     self.lexer.next_token()
     n = self.expr()
