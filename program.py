@@ -1,5 +1,8 @@
 from parser import *
 from lexer import *
+from compiler import *
+from vm import *
+
 lexer = Lexer()
 parser = Parser(lexer)
 
@@ -15,5 +18,16 @@ def printNode(node, deep):
 
 prog = parser.parse()
 printNode(prog, 0)
+compiler = Compiler()
+program = compiler.compile(prog)
+def Commamd(comIndex):
+  if comIndex < len(VMTYPES):
+    return VMTYPES[comIndex]
+  else:
+    return ""
+i = 0
+for operation in program:
+  print(str(i) + ": " +str(operation) + " " + Commamd(operation))
+  i = i + 1
 
-
+  # {a=1;if(a>2){a=a+1;}}
