@@ -1,12 +1,25 @@
-FETCH, STORE, PUSH, POP, ADD, SUB, LT, JZ, JNZ, JMP, HALT = range(11)
+# -*- coding: utf-8 -*-
+FETCH, STORE, PUSH, POP, ADD, SUB, LT, MT, JZ, JNZ, JMP, HALT = range(12)
 
 VMTYPES = [
-  'FETCH', 'STORE', 'PUSH', 'POP', 'ADD', 'SUB', 'LT', 'JZ', 'JNZ', 'JMP', 'HALT'
+  'FETCH', 'STORE', 'PUSH', 'POP', 'ADD', 'SUB', 'LT', 'MT', 'JZ', 'JNZ', 'JMP', 'HALT'
 ]
 
+VMTYPESWithARG = [
+	'FETCH', 'STORE', 'PUSH', 'JZ', 'JNZ', 'JMP'
+]
 
-
-
+# FETCH x - положить на стек значение переменной x
+# STORE x - сохранить в переменной x значение с вершины стека
+# PUSH  n - положить число n на вершину стека
+# POP     - удалить число с вершины стека
+# ADD     - сложить два числа на вершине стека
+# SUB     - вычесть два числа на вершине стека
+# LT      - сравнить два числа с вершины стека (a < b). Результат - 0 или 1
+# JZ    a - если на вершине стека 0 - перейти к адресу a.
+# JNZ   a - если на вершине стека не 0 - перейти к адресу a.
+# JMP   a - перейти к адресу a
+# HALT    - завершить работу
 
 
 class VM:
@@ -32,6 +45,12 @@ class VM:
 				else:
 					stack[-2] = 0
 				stack.pop(); pc += 1
+			elif op == MT: 
+				if stack[-2] > stack[-1]:
+					stack[-2] = 1
+				else:
+					stack[-2] = 0
+				stack.pop(); pc += 1
 			elif op == JZ: 
 				if stack.pop() == 0:
 					pc = arg
@@ -45,7 +64,7 @@ class VM:
 			elif op == JMP: pc = arg
 			elif op == HALT: break
 
-		print ('Finished execution.')
+		print ('Shinobi execution.')
 		for i in range(26):
 			if var[i] != 0:
 				print ('%c = %d' % (chr(i+ord('a')), var[i]))

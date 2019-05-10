@@ -3,7 +3,14 @@ from lexer import *
 from compiler import *
 from vm import *
 
-lexer = Lexer()
+if len(sys.argv)<2:
+  print('Please, add your program PATH')
+  sys.exit(1)
+
+with open(sys.argv[1], 'r') as content_file:
+  content = content_file.read()
+
+lexer = Lexer(content)
 parser = Parser(lexer)
 
 def printNode(node, deep):
@@ -20,14 +27,19 @@ prog = parser.parse()
 printNode(prog, 0)
 compiler = Compiler()
 program = compiler.compile(prog)
-def Commamd(comIndex):
-  if comIndex < len(VMTYPES):
-    return VMTYPES[comIndex]
-  else:
-    return ""
-i = 0
-for operation in program:
-  print(str(i) + ": " +str(operation) + " " + Commamd(operation))
-  i = i + 1
 
-  # {a=1;if(a>2){a=a+1;}}
+i = 0
+while i < len(program):
+  operation = VMTYPES[program[i]]
+  if operation in VMTYPESWithARG:
+    print(str(i) + ": " + operation)
+    i += 1
+    print(str(i) + ": " + str(program[i]))
+    i +=1
+  else:
+    print(str(i) + ": " + operation)
+    i = i + 1
+
+vm = VM()
+vm.run(program)
+  # { a=1; while(a<5) {a=a+1;} }

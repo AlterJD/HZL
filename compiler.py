@@ -29,6 +29,10 @@ class Compiler:
 			self.compile(node.operand1)
 			self.compile(node.operand2)
 			self.gen(LT)
+		elif node.kind == Parser.MT:
+			self.compile(node.operand1)
+			self.compile(node.operand2)
+			self.gen(MT)
 		elif node.kind == Parser.SET:
 			self.compile(node.operand2)
 			self.gen(STORE)

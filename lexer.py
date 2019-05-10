@@ -22,13 +22,21 @@ class Lexer:
            'for': FOR
         }
     ch = ' '
+    i = 0
+
+    def __init__(self, source):
+        self.source = source
 
     def error(self, msg):
         print ('Lexer error: ', msg)
         sys.exit(1)
 
     def getc(self):
-        self.ch = sys.stdin.read(1)
+        if self.i<len(self.source):
+            self.ch = self.source[self.i]
+            self.i+=1
+        else:
+            self.ch = ''
     
     def next_token(self):
         self.value = None
