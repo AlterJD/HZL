@@ -1,0 +1,2 @@
+# HZL
+Human Zero Language
