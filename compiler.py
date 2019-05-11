@@ -73,6 +73,16 @@ class Compiler:
       self.compile(node.operand3)
       self.gen(JMP); self.gen(addr)
       self.program[addr1]=self.pc
+    
+    elif node.kind == Parser.READ:
+      self.gen(READLN)
+      self.gen(STORE)
+      self.gen(node.value)
+
+    elif node.kind == Parser.PRINT:
+      self.gen(FETCH)
+      self.gen(node.value)
+      self.gen(PRINTLN)
 
     elif node.kind == Parser.SEQ:
       self.compile(node.operand1)

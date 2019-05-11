@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
-FETCH, STORE, PUSH, POP, ADD, SUB, LT, MT, JZ, JNZ, JMP, HALT = range(12)
+FETCH, STORE, PUSH, POP, ADD, SUB, LT, MT, JZ, JNZ, JMP, HALT, READLN, PRINTLN = range(14)
 
 VMTYPES = [
-  'FETCH', 'STORE', 'PUSH', 'POP', 'ADD', 'SUB', 'LT', 'MT', 'JZ', 'JNZ', 'JMP', 'HALT'
+  'FETCH', 'STORE', 'PUSH', 'POP', 'ADD', 'SUB', 'LT', 'MT', 'JZ', 'JNZ', 'JMP', 'HALT', 'READLN', 'PRINTLN'
 ]
 
 VMTYPESWithARG = [
@@ -63,6 +63,8 @@ class VM:
           pc += 2
       elif op == JMP: pc = arg
       elif op == HALT: break
+      elif op == READLN: stack.append(int(input())); pc += 1
+      elif op == PRINTLN: print(str(stack.pop())); pc += 1
 
     print ('Shinobi execution.')
     for i in range(26):

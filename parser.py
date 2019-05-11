@@ -13,9 +13,9 @@ class Node:
 class Parser:
 
   TYPES = [
-    'VAR', 'CONST', 'ADD', 'SUB', 'LT', 'MT', 'SET', 'IF1', 'IF2', 'WHILE', 'DO', 'FOR', 'EMPTY', 'SEQ', 'EXPR', 'PROG'
+    'VAR', 'CONST', 'ADD', 'SUB', 'LT', 'MT', 'SET', 'IF1', 'IF2', 'WHILE', 'DO', 'FOR', 'EMPTY', 'SEQ', 'EXPR', 'PROG', 'PRINT', 'READ'
   ]
-  VAR, CONST, ADD, SUB, LT, MT, SET, IF1, IF2, WHILE, DO, FOR, EMPTY, SEQ, EXPR, PROG = range(16)
+  VAR, CONST, ADD, SUB, LT, MT, SET, IF1, IF2, WHILE, DO, FOR, EMPTY, SEQ, EXPR, PROG, PRINT, READ = range(18)
 
   def __init__(self, lexer):
     self.lexer = lexer
@@ -117,6 +117,26 @@ class Parser:
       if n.operand3.kind != Parser.SET:
         self.error('Set operation expected.')
       n.operand4 = self.statement()
+
+    elif self.lexer.symbol == Lexer.READ:
+      n = Node (Parser.READ)
+      self.lexer.next_token()
+      if self.lexer.symbol != Lexer.ID:
+        self.error('Pass variable to read function.')
+      n.value = self.lexer.value
+      self.lexer.next_token()
+      if self.lexer.symbol != Lexer.SCOL:
+        self.error('";" expected') 
+    elif self.lexer.symbol == Lexer.PRINT:
+      n = Node (Parser.PRINT)
+      self.lexer.next_token()
+      if self.lexer.symbol != Lexer.ID:
+        self.error('Pass variable to print function.')
+      n.value = self.lexer.value
+      self.lexer.next_token()
+      if self.lexer.symbol != Lexer.SCOL:
+        self.error('";" expected') 
+
 
     elif self.lexer.symbol == Lexer.SCOL:
       n = Node(Parser.EMPTY)

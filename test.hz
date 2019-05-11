@@ -1,7 +1,5 @@
-{ 
-  b=1;
-  for(a=1) (a<5) (a=a+1)
-  {
-    b=b+2;
-  } 
+{ read b;
+  read a;
+  c = a+b;
+  print c;
 }

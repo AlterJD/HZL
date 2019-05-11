@@ -2,7 +2,7 @@ import sys
 
 class Lexer:
 
-    NUMBER, ID, WHILE, DO, FOR, IF, ELSE, LB, RB, LBR, RBR, PLUSik, MINUSik, LESS, MORE, EQUAL, SCOL, EOF = range (18)
+    NUMBER, ID, WHILE, DO, FOR, IF, ELSE, LB, RB, LBR, RBR, PLUSik, MINUSik, LESS, MORE, EQUAL, SCOL, READ, PRINT, EOF = range (20)
 
     SMB = {'{': LB, 
            '}': RB, 
@@ -19,7 +19,9 @@ class Lexer:
            'else': ELSE,
            'do': DO,
            'while': WHILE,
-           'for': FOR
+           'for': FOR,
+           'read': READ,
+           'print': PRINT
         }
     ch = ' '
     i = 0
