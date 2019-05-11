@@ -2,19 +2,20 @@ import sys
 from lexer import*
 
 class Node:
-	def __init__(self, kind, value = None, operand1 = None, operand2 = None, operand3 = None):
-		self.kind = kind
-		self.value = value
-		self.operand1 = operand1
-		self.operand2 = operand2
-		self.operand3 = operand3
+  def __init__(self, kind, value = None, operand1 = None, operand2 = None, operand3 = None, operand4 = None):
+    self.kind = kind
+    self.value = value
+    self.operand1 = operand1
+    self.operand2 = operand2
+    self.operand3 = operand3
+    self.operand4 = operand4
 
 class Parser:
 
   TYPES = [
-    'VAR', 'CONST', 'ADD', 'SUB', 'LT', 'MT', 'SET', 'IF1', 'IF2', 'WHILE', 'DO', 'EMPTY', 'SEQ', 'EXPR', 'PROG'
+    'VAR', 'CONST', 'ADD', 'SUB', 'LT', 'MT', 'SET', 'IF1', 'IF2', 'WHILE', 'DO', 'FOR', 'EMPTY', 'SEQ', 'EXPR', 'PROG'
   ]
-  VAR, CONST, ADD, SUB, LT, MT, SET, IF1, IF2, WHILE, DO, EMPTY, SEQ, EXPR, PROG = range(15)
+  VAR, CONST, ADD, SUB, LT, MT, SET, IF1, IF2, WHILE, DO, FOR, EMPTY, SEQ, EXPR, PROG = range(16)
 
   def __init__(self, lexer):
     self.lexer = lexer
@@ -101,6 +102,22 @@ class Parser:
       n.operand2 = self.bracket_expr()
       if self.lexer.symbol != Lexer.SCOL:
         self.error('";" expected')
+    
+    elif self.lexer.symbol == Lexer.FOR:
+      n = Node(Parser.FOR)
+      self.lexer.next_token()
+      n.operand1 = self.bracket_expr()
+      if n.operand1.kind != Parser.SET:
+        self.error('Set operation expected.')
+      n.operand2 = self.bracket_expr()
+      condition = n.operand2
+      if condition.kind != Parser.LT and condition.kind != Parser.MT:
+        self.error('Bool expression expected.')
+      n.operand3 = self.bracket_expr()
+      if n.operand3.kind != Parser.SET:
+        self.error('Set operation expected.')
+      n.operand4 = self.statement()
+
     elif self.lexer.symbol == Lexer.SCOL:
       n = Node(Parser.EMPTY)
       self.lexer.next_token()
