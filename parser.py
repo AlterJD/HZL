@@ -33,7 +33,7 @@ class Parser:
       self.lexer.next_token()
       return n
     else:
-      return self.parent_expr()
+      return self.bracket_expr()
 
   def sum(self):
     n = self.term()
@@ -46,7 +46,7 @@ class Parser:
       n = Node(kind, operand1 = n, operand2 = self.term())
     return n
 
-  def test(self): #TODO bool_expr
+  def bool_expr(self): 
     n = self.sum()
     if self.lexer.symbol == Lexer.LESS:
       self.lexer.next_token()
@@ -59,14 +59,14 @@ class Parser:
 
   def expr(self):
     if self.lexer.symbol != Lexer.ID:
-      return self.test()
-    n = self.test()
+      return self.bool_expr()
+    n = self.bool_expr()
     if n.kind == Parser.VAR and self.lexer.symbol == Lexer.EQUAL:
       self.lexer.next_token()
       n = Node(Parser.SET, operand1 = n, operand2 = self.expr())
     return n
 
-  def parent_expr(self): #TODO bracket_expr
+  def bracket_expr(self): 
     if self.lexer.symbol != Lexer.LBR: 
       self.error('"(" expected')
     self.lexer.next_token()
@@ -80,7 +80,7 @@ class Parser:
     if self.lexer.symbol == Lexer.IF:
       n = Node(Parser.IF1)
       self.lexer.next_token()
-      n.operand1 = self.parent_expr()
+      n.operand1 = self.bracket_expr()
       n.operand2 = self.statement()
       if self.lexer.symbol == Lexer.ELSE:
         n.kind = Parser.IF2
@@ -89,7 +89,7 @@ class Parser:
     elif self.lexer.symbol == Lexer.WHILE:
       n = Node(Parser.WHILE)
       self.lexer.next_token()
-      n.operand1 = self.parent_expr()
+      n.operand1 = self.bracket_expr()
       n.operand2 = self.statement()
     elif self.lexer.symbol == Lexer.DO:
       n = Node(Parser.DO)
@@ -98,7 +98,7 @@ class Parser:
       if self.lexer.symbol != Lexer.WHILE:
         self.error('"while" expected')
       self.lexer.next_token()
-      n.operand2 = self.parent_expr()
+      n.operand2 = self.bracket_expr()
       if self.lexer.symbol != Lexer.SCOL:
         self.error('";" expected')
     elif self.lexer.symbol == Lexer.SCOL:
