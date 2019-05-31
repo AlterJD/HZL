@@ -79,6 +79,9 @@ class Compiler:
       self.gen(STORE)
       self.gen(node.value)
 
+    elif node.kind == Parser.LLPRINT:
+      self.gen(LLPRINT)
+      
     elif node.kind == Parser.PRINT:
       self.gen(FETCH)
       self.gen(node.value)

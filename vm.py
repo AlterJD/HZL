@@ -1,8 +1,10 @@
 # -*- coding: utf-8 -*-
-FETCH, STORE, PUSH, POP, ADD, SUB, LT, MT, JZ, JNZ, JMP, HALT, READLN, PRINTLN = range(14)
+from linkedList import * 
+
+FETCH, STORE, PUSH, POP, ADD, SUB, LT, MT, JZ, JNZ, JMP, HALT, READLN, PRINTLN, LLPRINT = range(15)
 
 VMTYPES = [
-  'FETCH', 'STORE', 'PUSH', 'POP', 'ADD', 'SUB', 'LT', 'MT', 'JZ', 'JNZ', 'JMP', 'HALT', 'READLN', 'PRINTLN'
+  'FETCH', 'STORE', 'PUSH', 'POP', 'ADD', 'SUB', 'LT', 'MT', 'JZ', 'JNZ', 'JMP', 'HALT', 'READLN', 'PRINTLN', 'LLPRINT'
 ]
 
 VMTYPESWithARG = [
@@ -26,6 +28,13 @@ class VM:
 
   def run(self, program):
     var = [0 for i in range(26)]
+    
+
+    llist = LinkedList()
+    llist.addToEnd("Tom")
+    llist.addToEnd("Jack")
+    llist.addToEnd("Zumba")
+
     stack = []
     pc = 0
     while True:
@@ -65,6 +74,7 @@ class VM:
       elif op == HALT: break
       elif op == READLN: stack.append(int(input())); pc += 1
       elif op == PRINTLN: print(str(stack.pop())); pc += 1
+      elif op == LLPRINT: llist.LLprint(); pc += 1      
 
     print ('Shinobi execution.')
     for i in range(26):

@@ -1,5 +1,7 @@
 { read b;
-  read a;
-  c = a+b;
-  print c;
+  for (a = 0) (a < b) (a = a + 1)
+  {
+    print a;
+  }
+  printll;
 }
