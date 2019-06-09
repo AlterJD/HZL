@@ -7,6 +7,15 @@ class LinkedList:
   def __init__(self):
     self.head = None
 
+  def contains (self, cat):
+    lastbox = self.head
+    while (lastbox):
+      if cat == lastbox.cat:
+        return True
+      else:
+        lastbox = lastbox.nextcat
+    return False
+
   def addToEnd(self, newcat):
     newbox = Box(newcat)
     if self.head is None:
