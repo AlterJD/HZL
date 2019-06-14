@@ -25,7 +25,11 @@ class Lexer:
            'addtoll' : LLADD,
            'removefromll' : LLREMOVE,
            'getfromll' : LLGET,
-           'printll' : LLPRINT
+           'printll' : LLPRINT,
+           'addtohash' : HADD,
+           'removefromhs': HREMOVE,
+           'prinths' : HPRINT,
+           'containsinhs' : HCONTAINS
         }
     ch = ' '
     i = 0

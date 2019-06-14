@@ -26,14 +26,9 @@ class Hashset:
     targetll.removeBox(item)
 
   def printHS (self):
+    print("HASH SET")
+    print("----------")
     for i in range(len(self.hashl)):
       print (str(i)+':')
       self.hashl[i].LLprint()
-
-
-someset = Hashset(7)
-someset.addItem(45)
-someset.addItem(49)
-someset.printHS()
-someset.removeHash(49)
-someset.printHS()
+    print("----------")

@@ -1,7 +1,25 @@
 { read b;
   for (a = 0) (a < b) (a = a + 1)
   {
-    print a;
+    c = a + 1;
+    print c;
+    addtoll c;
+    printll;
   }
+  getfromll (0) b;
   printll;
+  removefromll (2);
+  addtohash (3+b);
+  removefromhs (3+b);
+  containsinhs(b+3) v;
+  if (v) 
+  {
+    z = 5050;
+  }
+  else
+  {
+    z = 0 - 5050;
+  }
+
+  print z;
 }

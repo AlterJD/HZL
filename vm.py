@@ -1,14 +1,15 @@
 # -*- coding: utf-8 -*-
 from linkedList import * 
+from hashset import *
 
-FETCH, STORE, PUSH, POP, ADD, SUB, LT, MT, JZ, JNZ, JMP, HALT, READLN, PRINTLN, LLPRINT = range(15)
+FETCH, STORE, PUSH, POP, ADD, SUB, LT, MT, JZ, JNZ, JMP, HALT, READLN, PRINTLN, LLPRINT, LLADD, LLREMOVE, LLGET, HADD, HCONTAINS, HREMOVE, HPRINT = range(22)
 
 VMTYPES = [
-  'FETCH', 'STORE', 'PUSH', 'POP', 'ADD', 'SUB', 'LT', 'MT', 'JZ', 'JNZ', 'JMP', 'HALT', 'READLN', 'PRINTLN', 'LLPRINT'
+  'FETCH', 'STORE', 'PUSH', 'POP', 'ADD', 'SUB', 'LT', 'MT', 'JZ', 'JNZ', 'JMP', 'HALT', 'READLN', 'PRINTLN', 'LLPRINT', 'LLADD', 'LLREMOVE', 'LLGET', 'HADD', 'HCONTAINS', 'HREMOVE', 'HPRINT'
 ]
 
 VMTYPESWithARG = [
-  'FETCH', 'STORE', 'PUSH', 'JZ', 'JNZ', 'JMP'
+  'FETCH', 'STORE', 'PUSH', 'JZ', 'JNZ', 'JMP', 'LLADD', 'LLREMOVE', 'LLGET', 'HADD', 'HCONTAINS', 'HREMOVE'
 ]
 
 # FETCH x - положить на стек значение переменной x
@@ -31,9 +32,7 @@ class VM:
     
 
     llist = LinkedList()
-    llist.addToEnd("Tom")
-    llist.addToEnd("Jack")
-    llist.addToEnd("Zumba")
+    hset = Hashset(50)
 
     stack = []
     pc = 0
@@ -74,7 +73,20 @@ class VM:
       elif op == HALT: break
       elif op == READLN: stack.append(int(input())); pc += 1
       elif op == PRINTLN: print(str(stack.pop())); pc += 1
-      elif op == LLPRINT: llist.LLprint(); pc += 1      
+      elif op == LLPRINT: llist.LLprint(); pc += 1     
+      elif op == HPRINT: hset.printHS(); pc += 1  
+      elif op == LLADD: llist.addToEnd(var[arg]); pc += 2
+      elif op == LLGET: var[arg] = llist.get(stack[-1]); stack.pop(); pc +=2
+      elif op == LLREMOVE: llist.removeBox(stack[-1]); stack.pop(); pc +=1
+      elif op == HADD: hset.addItem(stack[-1]); stack.pop(); pc +=1
+      elif op == HREMOVE: hset.removeHash(stack[-1]); stack.pop(); pc +=1
+      elif op == HCONTAINS: 
+        if hset.containsHash(stack[-1]):
+          var[arg] = 1
+        else:
+          var[arg] = 0
+        stack.pop()
+        pc+=2
 
     print ('Shinobi execution.')
     for i in range(26):

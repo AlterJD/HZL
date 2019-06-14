@@ -13,9 +13,9 @@ class Node:
 class Parser:
 
   TYPES = [
-    'VAR', 'CONST', 'ADD', 'SUB', 'LT', 'MT', 'SET', 'IF1', 'IF2', 'WHILE', 'DO', 'FOR', 'EMPTY', 'SEQ', 'EXPR', 'PROG', 'PRINT', 'READ', 'LLPRINT'
+    'VAR', 'CONST', 'ADD', 'SUB', 'LT', 'MT', 'SET', 'IF1', 'IF2', 'WHILE', 'DO', 'FOR', 'EMPTY', 'SEQ', 'EXPR', 'PROG', 'PRINT', 'READ', 'LLPRINT', 'LLADD', 'LLREMOVE', 'LLGET', 'HADD', 'HCONTAINS', 'HREMOVE', 'HPRINT'
   ]
-  VAR, CONST, ADD, SUB, LT, MT, SET, IF1, IF2, WHILE, DO, FOR, EMPTY, SEQ, EXPR, PROG, PRINT, READ, LLPRINT = range(19)
+  VAR, CONST, ADD, SUB, LT, MT, SET, IF1, IF2, WHILE, DO, FOR, EMPTY, SEQ, EXPR, PROG, PRINT, READ, LLPRINT, LLADD, LLREMOVE, LLGET, HADD, HCONTAINS, HREMOVE, HPRINT = range(26)
 
   def __init__(self, lexer):
     self.lexer = lexer
@@ -143,7 +143,63 @@ class Parser:
       if self.lexer.symbol != Lexer.SCOL:
         self.error('";" expected') 
 
+    elif self.lexer.symbol == Lexer.HPRINT:
+      n = Node (Parser.HPRINT)
+      self.lexer.next_token()
+      if self.lexer.symbol != Lexer.SCOL:
+        self.error('";" expected') 
 
+    elif self.lexer.symbol == Lexer.LLADD:
+      n = Node (Parser.LLADD)
+      self.lexer.next_token()
+      if self.lexer.symbol != Lexer.ID:
+        self.error('Pass variable to linkedlist add function.')
+      n.value = self.lexer.value
+      self.lexer.next_token()
+      if self.lexer.symbol != Lexer.SCOL:
+        self.error('";" expected') 
+    
+    elif self.lexer.symbol == Lexer.LLREMOVE:
+      n = Node (Parser.LLREMOVE)
+      self.lexer.next_token()
+      n.operand1 = self.bracket_expr()
+      if self.lexer.symbol != Lexer.SCOL:
+        self.error('";" expected') 
+    
+    elif self.lexer.symbol == Lexer.LLGET:
+      n = Node (Parser.LLGET)
+      self.lexer.next_token()
+      n.operand1 = self.bracket_expr()
+      if self.lexer.symbol != Lexer.ID:
+        self.error('Pass variable to linkedlist get function.')
+      n.value = self.lexer.value
+      self.lexer.next_token()
+      if self.lexer.symbol != Lexer.SCOL:
+        self.error('";" expected') 
+
+    elif self.lexer.symbol == Lexer.HADD:
+      n = Node (Parser.HADD)
+      self.lexer.next_token()
+      n.operand1 = self.bracket_expr()
+      if self.lexer.symbol != Lexer.SCOL:
+        self.error('";" expected')  
+
+    elif self.lexer.symbol == Lexer.HREMOVE:
+      n = Node (Parser.HREMOVE)
+      self.lexer.next_token()
+      n.operand1 = self.bracket_expr()
+      if self.lexer.symbol != Lexer.SCOL:
+        self.error('";" expected')    
+    elif self.lexer.symbol == Lexer.HCONTAINS:
+      n = Node (Parser.HCONTAINS)
+      self.lexer.next_token()
+      n.operand1 = self.bracket_expr()
+      if self.lexer.symbol != Lexer.ID:
+        self.error('Pass variable to hash set contains function.')
+      n.value = self.lexer.value
+      self.lexer.next_token()
+      if self.lexer.symbol != Lexer.SCOL:
+        self.error('";" expected') 
     elif self.lexer.symbol == Lexer.SCOL:
       n = Node(Parser.EMPTY)
       self.lexer.next_token()

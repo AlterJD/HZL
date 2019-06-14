@@ -57,9 +57,15 @@ class LinkedList:
 
   def LLprint(self):
     currentCat = self.head
+    print("LINKED LIST")
+    print("-----")
+    i = 0
     while currentCat is not None:
-      print (currentCat.cat)
+      print (str(i) + ": " + str(currentCat.cat))
+      i += 1
       currentCat = currentCat.nextcat
+    print("-----")
+
 
 
 

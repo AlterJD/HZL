@@ -81,12 +81,40 @@ class Compiler:
 
     elif node.kind == Parser.LLPRINT:
       self.gen(LLPRINT)
-      
+
+    elif node.kind == Parser.HPRINT:
+      self.gen(HPRINT)
+    
+    elif node.kind == Parser.LLADD:
+      self.gen(LLADD)
+      self.gen(node.value)
+
+    elif node.kind == Parser.LLREMOVE:
+      self.compile(node.operand1)
+      self.gen(LLREMOVE)
+
+    elif node.kind == Parser.LLGET:
+      self.compile(node.operand1)
+      self.gen(LLGET)
+      self.gen(node.value)
+
+    elif node.kind == Parser.HADD:
+      self.compile(node.operand1)
+      self.gen(HADD)
+
+    elif node.kind == Parser.HREMOVE:
+      self.compile(node.operand1)
+      self.gen(HREMOVE)
+
     elif node.kind == Parser.PRINT:
       self.gen(FETCH)
       self.gen(node.value)
       self.gen(PRINTLN)
 
+    elif node.kind == Parser.HCONTAINS:
+      self.compile(node.operand1)
+      self.gen(HCONTAINS)
+      self.gen(node.value)
     elif node.kind == Parser.SEQ:
       self.compile(node.operand1)
       self.compile(node.operand2)
